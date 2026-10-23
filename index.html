@@ -118,13 +118,12 @@
       line-height: 1.25;
     }
 
-    /* 곡별 제목 색상 */
-    .c1 { color: #28dc32; }
-    .c2 { color: #f6f6f6; }
-    .c3 { color: var(--cyan); }
-    .c4 { color: #f6d34e; }
-    .c5 { color: #e93242; }
-    .c6 { color: #bdbdbd; }
+    /* 원본 포스터 맞춤 색상 Class */
+    .c-green  { color: #28dc32; }
+    .c-cyan   { color: #4ce4f5; }
+    .c-yellow { color: #f6d34e; }
+    .c-red    { color: #e93242; }
+    .c-white  { color: #ffffff; }
 
     /* 오시는 길 */
     .footer {
@@ -372,10 +371,12 @@
 
   <script>
     const songs = [
+      /* PART 1 */
       {
         part: 1,
         title: "선인장",
         artist: "Surl (설)",
+        colorClass: "c-green",
         performers: {
           "Vocal": "최경민",
           "Keyboard": "성민준",
@@ -387,34 +388,9 @@
       },
       {
         part: 1,
-        title: "Sweet Chaos",
-        artist: "DAY6",
-        performers: {
-          "Vocal": "신창희",
-          "Keyboard": "이상수",
-          "Guitar 1": "이진우",
-          "Guitar 2": "최은재",
-          "Bass": "박동연",
-          "Drum": "박현준"
-        }
-      },
-      {
-        part: 1,
-        title: "Cruel Summer",
-        artist: "Taylor Swift",
-        performers: {
-          "Vocal": "이주현",
-          "Keyboard": "박성현",
-          "Guitar 1": "이영훈",
-          "Guitar 2": "이주현",
-          "Bass": "김건아",
-          "Drum": "안소현"
-        }
-      },
-      {
-        part: 1,
         title: "check to check",
         artist: "Ella Fitzgerald and Louis Armstrong",
+        colorClass: "c-white",
         performers: {
           "Vocal": "박혜성",
           "Keyboard": "박성현",
@@ -424,8 +400,19 @@
       },
       {
         part: 1,
+        title: "소녀",
+        artist: "이문세",
+        colorClass: "c-white",
+        performers: {
+          "Vocal": "이민우",
+          "통기타": "이민우"
+        }
+      },
+      {
+        part: 1,
         title: "I Really Want to Stay At Your House",
         artist: "Rosa Walton",
+        colorClass: "c-cyan",
         performers: {
           "Vocal": "이주현",
           "Keyboard": "박성현",
@@ -437,29 +424,23 @@
       },
       {
         part: 1,
-        title: "Yellow",
-        artist: "Coldplay",
+        title: "Sweet Chaos",
+        artist: "DAY6",
+        colorClass: "c-white",
         performers: {
-          "Vocal": "조성열",
-          "Guitar 1": "이은지",
-          "Guitar 2": "가은서",
-          "Bass": "허 건",
-          "Drum": "박은산"
-        }
-      },
-      {
-        part: 1,
-        title: "소녀",
-        artist: "이문세",
-        performers: {
-          "Vocal": "이민우",
-          "통기타": "이민우"
+          "Vocal": "신창희",
+          "Keyboard": "이상수",
+          "Guitar 1": "이진우",
+          "Guitar 2": "최은재",
+          "Bass": "박동연",
+          "Drum": "박현준"
         }
       },
       {
         part: 1,
         title: "Some Like It Hot!!",
         artist: "SPYAIR",
+        colorClass: "c-white",
         performers: {
           "Vocal": "가은서",
           "Guitar 1": "고우석",
@@ -469,9 +450,39 @@
         }
       },
       {
+        part: 1,
+        title: "Cruel Summer",
+        artist: "Taylor Swift",
+        colorClass: "c-cyan",
+        performers: {
+          "Vocal": "이주현",
+          "Keyboard": "박성현",
+          "Guitar 1": "이영훈",
+          "Guitar 2": "이주현",
+          "Bass": "김건아",
+          "Drum": "안소현"
+        }
+      },
+      {
+        part: 1,
+        title: "Yellow",
+        artist: "Coldplay",
+        colorClass: "c-yellow",
+        performers: {
+          "Vocal": "조성열",
+          "Guitar 1": "이은지",
+          "Guitar 2": "가은서",
+          "Bass": "허 건",
+          "Drum": "박은산"
+        }
+      },
+
+      /* PART 2 */
+      {
         part: 2,
         title: "시작",
         artist: "가호",
+        colorClass: "c-white",
         performers: {
           "Vocal": "윤소현",
           "Keyboard": "이승기",
@@ -483,8 +494,22 @@
       },
       {
         part: 2,
+        title: "흔들리는 시간 속에",
+        artist: "극동아시아타이거즈",
+        colorClass: "c-white",
+        performers: {
+          "Vocal": "신창희",
+          "Guitar 1": "이진우",
+          "Guitar 2": "변중연",
+          "Bass": "이제빈",
+          "Drum": "이은호"
+        }
+      },
+      {
+        part: 2,
         title: "Hello",
         artist: "Oasis",
+        colorClass: "c-cyan",
         performers: {
           "Vocal": "최경민",
           "Keyboard": "안재윤",
@@ -496,29 +521,9 @@
       },
       {
         part: 2,
-        title: "비와 당신",
-        artist: "박중훈",
-        performers: {
-          "Vocal": "김현빈",
-          "등기타": "최경민"
-        }
-      },
-      {
-        part: 2,
-        title: "흔들리는 시간 속에",
-        artist: "극동아시아타이거즈",
-        performers: {
-          "Vocal": "신창희",
-          "Guitar 1": "이진우",
-          "Guitar 2": "변중연",
-          "Bass": "이제빈",
-          "Drum": "이은호"
-        }
-      },
-      {
-        part: 2,
         title: "거울",
         artist: "한로로",
+        colorClass: "c-red",
         performers: {
           "Vocal": "이주현",
           "Keyboard": "이상수",
@@ -532,6 +537,7 @@
         part: 2,
         title: "Congratulations",
         artist: "DAY6",
+        colorClass: "c-cyan",
         performers: {
           "Vocal": "윤소현",
           "Keyboard": "김도현",
@@ -543,8 +549,19 @@
       },
       {
         part: 2,
+        title: "비와 당신",
+        artist: "박중훈",
+        colorClass: "c-white",
+        performers: {
+          "Vocal": "김현빈",
+          "등기타": "최경민"
+        }
+      },
+      {
+        part: 2,
         title: "Ryudejakeiru",
         artist: "Silica Gel (실리카겔)",
+        colorClass: "c-white",
         performers: {
           "Vocal": "박혜성",
           "Keyboard": "이승기",
@@ -558,6 +575,7 @@
         part: 2,
         title: "슈퍼스타",
         artist: "미도와 파라솔",
+        colorClass: "c-white",
         performers: {
           "Vocal": "윤지영",
           "Keyboard": "이상수",
@@ -569,15 +587,13 @@
       }
     ];
 
-    const colors = ["c1", "c2", "c3", "c4", "c5", "c6"];
-
-    function makeButton(song, index) {
+    function makeButton(song) {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "song";
 
       const title = document.createElement("span");
-      title.className = "song-name " + colors[index % colors.length];
+      title.className = "song-name " + song.colorClass;
       title.textContent = song.title;
 
       const artist = document.createElement("span");
@@ -594,9 +610,9 @@
       const part1 = document.getElementById("part1");
       const part2 = document.getElementById("part2");
 
-      songs.forEach((song, index) => {
+      songs.forEach((song) => {
         const target = song.part === 1 ? part1 : part2;
-        target.appendChild(makeButton(song, index));
+        target.appendChild(makeButton(song));
       });
     }
 
