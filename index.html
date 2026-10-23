@@ -71,7 +71,7 @@
       letter-spacing: 0.16em;
     }
 
-    /* 곡 목록 컨테이너 (기본 3열) */
+    /* 곡 목록 */
     .song-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -82,7 +82,7 @@
       background: var(--panel);
     }
 
-    /* 1행에 2열 배치를 위한 클래스 (PART 1 전용) */
+    /* 1행 2열 배치를 위한 스타일 (PART 2 전용) */
     .row-2col {
       grid-column: span 3;
       display: grid;
@@ -127,7 +127,7 @@
       line-height: 1.25;
     }
 
-    /* 색상 클래스 */
+    /* 원본 포스터 맞춤 색상 Class */
     .c-green  { color: #28dc32; }
     .c-cyan   { color: #4ce4f5; }
     .c-yellow { color: #f6d34e; }
@@ -147,6 +147,7 @@
       letter-spacing: 0.12em;
     }
 
+    /* 오시는 길 지도 스타일 */
     .map-placeholder {
       width: 100%;
       margin-bottom: 14px;
@@ -503,22 +504,21 @@
       const part1Container = document.getElementById("part1");
       const part2Container = document.getElementById("part2");
 
-      // PART 1 렌더링 (1행: 2개, 2행: 3개, 3행: 3개)
-      const p1_row1 = document.createElement("div");
-      p1_row1.className = "row-2col";
-      for (let i = 0; i < 2; i++) {
-        p1_row1.appendChild(createSongButton(songsPart1[i], 1));
-      }
-      part1Container.appendChild(p1_row1);
-
-      for (let i = 2; i < songsPart1.length; i++) {
-        part1Container.appendChild(createSongButton(songsPart1[i], 1));
-      }
-
-      // PART 2 렌더링 (3열씩 균등 배치)
-      songsPart2.forEach((song) => {
-        part2Container.appendChild(createSongButton(song, 2));
+      // PART 1 (원래대로 3열 순서대로 렌더링)
+      songsPart1.forEach((song) => {
+        part1Container.appendChild(createSongButton(song, 1));
       });
+
+      // PART 2 (1행: 2열 / 2행: 3열 / 3행: 3열)
+      const p2_row1 = document.createElement("div");
+      p2_row1.className = "row-2col";
+      p2_row1.appendChild(createSongButton(songsPart2[0], 2)); // 시작
+      p2_row1.appendChild(createSongButton(songsPart2[1], 2)); // 흔들리는 시간 속에
+      part2Container.appendChild(p2_row1);
+
+      for (let i = 2; i < songsPart2.length; i++) {
+        part2Container.appendChild(createSongButton(songsPart2[i], 2));
+      }
     }
 
     function openSong(song, partNum) {
