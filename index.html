@@ -71,7 +71,7 @@
       letter-spacing: 0.16em;
     }
 
-    /* 곡 목록 */
+    /* 곡 목록 컨테이너 (기본 3열) */
     .song-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -80,6 +80,15 @@
       margin-bottom: 6px;
       border: 2px solid #292929;
       background: var(--panel);
+    }
+
+    /* 1행에 2열 배치를 위한 클래스 (PART 1 전용) */
+    .row-2col {
+      grid-column: span 3;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2px;
+      margin-bottom: 2px;
     }
 
     .song {
@@ -118,7 +127,7 @@
       line-height: 1.25;
     }
 
-    /* 원본 포스터 맞춤 색상 Class */
+    /* 색상 클래스 */
     .c-green  { color: #28dc32; }
     .c-cyan   { color: #4ce4f5; }
     .c-yellow { color: #f6d34e; }
@@ -138,7 +147,6 @@
       letter-spacing: 0.12em;
     }
 
-    /* 오시는 길 지도 스타일 */
     .map-placeholder {
       width: 100%;
       margin-bottom: 14px;
@@ -370,224 +378,109 @@
   </section>
 
   <script>
-    const songs = [
-      /* PART 1 */
+    const songsPart1 = [
       {
-        part: 1,
         title: "선인장",
         artist: "Surl (설)",
         colorClass: "c-green",
-        performers: {
-          "Vocal": "최경민",
-          "Keyboard": "성민준",
-          "Guitar 1": "이진우",
-          "Guitar 2": "이주현",
-          "Bass": "김도훈",
-          "Drum": "이은호"
-        }
+        performers: { "Vocal": "최경민", "Keyboard": "성민준", "Guitar 1": "이진우", "Guitar 2": "이주현", "Bass": "김도훈", "Drum": "이은호" }
       },
       {
-        part: 1,
         title: "check to check",
         artist: "Ella Fitzgerald and Louis Armstrong",
         colorClass: "c-white",
-        performers: {
-          "Vocal": "박혜성",
-          "Keyboard": "박성현",
-          "Guitar 1": "임지후",
-          "Drum": "박건희"
-        }
+        performers: { "Vocal": "박혜성", "Keyboard": "박성현", "Guitar 1": "임지후", "Drum": "박건희" }
       },
       {
-        part: 1,
         title: "소녀",
         artist: "이문세",
         colorClass: "c-white",
-        performers: {
-          "Vocal": "이민우",
-          "통기타": "이민우"
-        }
+        performers: { "Vocal": "이민우", "통기타": "이민우" }
       },
       {
-        part: 1,
         title: "Sweet Chaos",
         artist: "DAY6",
         colorClass: "c-white",
-        performers: {
-          "Vocal": "신창희",
-          "Keyboard": "이상수",
-          "Guitar 1": "이진우",
-          "Guitar 2": "최은재",
-          "Bass": "박동연",
-          "Drum": "박현준"
-        }
+        performers: { "Vocal": "신창희", "Keyboard": "이상수", "Guitar 1": "이진우", "Guitar 2": "최은재", "Bass": "박동연", "Drum": "박현준" }
       },
       {
-        part: 1,
         title: "I Really Want to Stay At Your House",
         artist: "Rosa Walton",
         colorClass: "c-cyan",
-        performers: {
-          "Vocal": "이주현",
-          "Keyboard": "박성현",
-          "Guitar 1": "이진우",
-          "Guitar 2": "박혜성",
-          "Bass": "김태경",
-          "Drum": "박현준"
-        }
+        performers: { "Vocal": "이주현", "Keyboard": "박성현", "Guitar 1": "이진우", "Guitar 2": "박혜성", "Bass": "김태경", "Drum": "박현준" }
       },
       {
-        part: 1,
         title: "Some Like It Hot!!",
         artist: "SPYAIR",
         colorClass: "c-white",
-        performers: {
-          "Vocal": "가은서",
-          "Guitar 1": "고우석",
-          "Guitar 2": "박재민",
-          "Bass": "박진민",
-          "Drum": "김배성"
-        }
+        performers: { "Vocal": "가은서", "Guitar 1": "고우석", "Guitar 2": "박재민", "Bass": "박진민", "Drum": "김배성" }
       },
       {
-        part: 1,
         title: "Cruel Summer",
         artist: "Taylor Swift",
         colorClass: "c-cyan",
-        performers: {
-          "Vocal": "이주현",
-          "Keyboard": "박성현",
-          "Guitar 1": "이영훈",
-          "Guitar 2": "이주현",
-          "Bass": "김건아",
-          "Drum": "안소현"
-        }
+        performers: { "Vocal": "이주현", "Keyboard": "박성현", "Guitar 1": "이영훈", "Guitar 2": "이주현", "Bass": "김건아", "Drum": "안소현" }
       },
       {
-        part: 1,
         title: "Yellow",
         artist: "Coldplay",
         colorClass: "c-yellow",
-        performers: {
-          "Vocal": "조성열",
-          "Guitar 1": "이은지",
-          "Guitar 2": "가은서",
-          "Bass": "허 건",
-          "Drum": "박은산"
-        }
-      },
-
-      /* PART 2 */
-      {
-        part: 2,
-        title: "시작",
-        artist: "가호",
-        colorClass: "c-white",
-        performers: {
-          "Vocal": "윤소현",
-          "Keyboard": "이승기",
-          "Guitar 1": "김지원",
-          "Guitar 2": "전승욱",
-          "Bass": "박성준",
-          "Drum": "전민성"
-        }
-      },
-      {
-        part: 2,
-        title: "흔들리는 시간 속에",
-        artist: "극동아시아타이거즈",
-        colorClass: "c-white",
-        performers: {
-          "Vocal": "신창희",
-          "Guitar 1": "이진우",
-          "Guitar 2": "변중연",
-          "Bass": "이제빈",
-          "Drum": "이은호"
-        }
-      },
-      {
-        part: 2,
-        title: "Hello",
-        artist: "Oasis",
-        colorClass: "c-cyan",
-        performers: {
-          "Vocal": "최경민",
-          "Keyboard": "안재윤",
-          "Guitar 1": "이주현",
-          "Guitar 2": "최경민",
-          "Bass": "하태호",
-          "Drum": "성민준"
-        }
-      },
-      {
-        part: 2,
-        title: "거울",
-        artist: "한로로",
-        colorClass: "c-red",
-        performers: {
-          "Vocal": "이주현",
-          "Keyboard": "이상수",
-          "Guitar 1": "성민준",
-          "Guitar 2": "가은서",
-          "Bass": "김태경",
-          "Drum": "이은호"
-        }
-      },
-      {
-        part: 2,
-        title: "Congratulations",
-        artist: "DAY6",
-        colorClass: "c-cyan",
-        performers: {
-          "Vocal": "윤소현",
-          "Keyboard": "김도현",
-          "Guitar 1": "박재민",
-          "Guitar 2": "가은서",
-          "Bass": "김우찬",
-          "Drum": "전민성"
-        }
-      },
-      {
-        part: 2,
-        title: "비와 당신",
-        artist: "박중훈",
-        colorClass: "c-white",
-        performers: {
-          "Vocal": "김현빈",
-          "등기타": "최경민"
-        }
-      },
-      {
-        part: 2,
-        title: "Ryudejakeiru",
-        artist: "Silica Gel (실리카겔)",
-        colorClass: "c-white",
-        performers: {
-          "Vocal": "박혜성",
-          "Keyboard": "이승기",
-          "Guitar 1": "이진우",
-          "Guitar 2": "박채영",
-          "Bass": "박동연",
-          "Drum": "한상민"
-        }
-      },
-      {
-        part: 2,
-        title: "슈퍼스타",
-        artist: "미도와 파라솔",
-        colorClass: "c-white",
-        performers: {
-          "Vocal": "윤지영",
-          "Keyboard": "이상수",
-          "Guitar 1": "여명하",
-          "Guitar 2": "임성흔",
-          "Bass": "이슬아",
-          "Drum": "김민교"
-        }
+        performers: { "Vocal": "조성열", "Guitar 1": "이은지", "Guitar 2": "가은서", "Bass": "허 건", "Drum": "박은산" }
       }
     ];
 
-    function makeButton(song) {
+    const songsPart2 = [
+      {
+        title: "시작",
+        artist: "가호",
+        colorClass: "c-white",
+        performers: { "Vocal": "윤소현", "Keyboard": "이승기", "Guitar 1": "김지원", "Guitar 2": "전승욱", "Bass": "박성준", "Drum": "전민성" }
+      },
+      {
+        title: "흔들리는 시간 속에",
+        artist: "극동아시아타이거즈",
+        colorClass: "c-white",
+        performers: { "Vocal": "신창희", "Guitar 1": "이진우", "Guitar 2": "변중연", "Bass": "이제빈", "Drum": "이은호" }
+      },
+      {
+        title: "Hello",
+        artist: "Oasis",
+        colorClass: "c-cyan",
+        performers: { "Vocal": "최경민", "Keyboard": "안재윤", "Guitar 1": "이주현", "Guitar 2": "최경민", "Bass": "하태호", "Drum": "성민준" }
+      },
+      {
+        title: "거울",
+        artist: "한로로",
+        colorClass: "c-red",
+        performers: { "Vocal": "이주현", "Keyboard": "이상수", "Guitar 1": "성민준", "Guitar 2": "가은서", "Bass": "김태경", "Drum": "이은호" }
+      },
+      {
+        title: "Congratulations",
+        artist: "DAY6",
+        colorClass: "c-cyan",
+        performers: { "Vocal": "윤소현", "Keyboard": "김도현", "Guitar 1": "박재민", "Guitar 2": "가은서", "Bass": "김우찬", "Drum": "전민성" }
+      },
+      {
+        title: "비와 당신",
+        artist: "박중훈",
+        colorClass: "c-white",
+        performers: { "Vocal": "김현빈", "등기타": "최경민" }
+      },
+      {
+        title: "Ryudejakeiru",
+        artist: "Silica Gel (실리카겔)",
+        colorClass: "c-white",
+        performers: { "Vocal": "박혜성", "Keyboard": "이승기", "Guitar 1": "이진우", "Guitar 2": "박채영", "Bass": "박동연", "Drum": "한상민" }
+      },
+      {
+        title: "슈퍼스타",
+        artist: "미도와 파라솔",
+        colorClass: "c-white",
+        performers: { "Vocal": "윤지영", "Keyboard": "이상수", "Guitar 1": "여명하", "Guitar 2": "임성흔", "Bass": "이슬아", "Drum": "김민교" }
+      }
+    ];
+
+    function createSongButton(song, partNum) {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "song";
@@ -601,23 +494,35 @@
       artist.textContent = song.artist;
 
       button.append(title, artist);
-      button.addEventListener("click", () => openSong(song));
+      button.addEventListener("click", () => openSong(song, partNum));
 
       return button;
     }
 
     function render() {
-      const part1 = document.getElementById("part1");
-      const part2 = document.getElementById("part2");
+      const part1Container = document.getElementById("part1");
+      const part2Container = document.getElementById("part2");
 
-      songs.forEach((song) => {
-        const target = song.part === 1 ? part1 : part2;
-        target.appendChild(makeButton(song));
+      // PART 1 렌더링 (1행: 2개, 2행: 3개, 3행: 3개)
+      const p1_row1 = document.createElement("div");
+      p1_row1.className = "row-2col";
+      for (let i = 0; i < 2; i++) {
+        p1_row1.appendChild(createSongButton(songsPart1[i], 1));
+      }
+      part1Container.appendChild(p1_row1);
+
+      for (let i = 2; i < songsPart1.length; i++) {
+        part1Container.appendChild(createSongButton(songsPart1[i], 1));
+      }
+
+      // PART 2 렌더링 (3열씩 균등 배치)
+      songsPart2.forEach((song) => {
+        part2Container.appendChild(createSongButton(song, 2));
       });
     }
 
-    function openSong(song) {
-      document.getElementById("detailPart").textContent = "PART " + song.part;
+    function openSong(song, partNum) {
+      document.getElementById("detailPart").textContent = "PART " + partNum;
       document.getElementById("detailTitle").textContent = song.title;
       document.getElementById("detailArtist").textContent = song.artist;
       document.getElementById("infoTitle").textContent = song.title;
