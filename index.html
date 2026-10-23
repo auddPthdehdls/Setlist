@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>SETLIST</title>
+
+  <!-- Pretendard -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+
+  <style>
+    :root {
+      --bg: #000000;
+      --panel: #131313;
+      --cyan: #4ce4f5;
+      --white: #f5f5f5;
+      --gray: #999999;
+      --border: #303030;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--white);
+      font-family: Pretendard, sans-serif;
+      letter-spacing: -0.035em;
+    }
+
+    button {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 28px 16px 52px;
+    }
+
+    /* 상단 제목 */
+    .hero {
+      margin: 0 0 15px;
+      text-align: center;
+      font-size: clamp(48px, 13vw, 82px);
+      font-weight: 200;
+      letter-spacing: 0.025em;
+      line-height: 1.2;
+    }
+
+    /* PART 구분 바 */
+    .part-title {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 45px;
+      margin: 0 0 6px;
+      background: var(--cyan);
+      color: #080808;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+    }
+
+    /* 곡 목록 */
+    .song-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2px;
+      padding: 12px 8px;
+      margin-bottom: 6px;
+      border: 2px solid #292929;
+      background: var(--panel);
+    }
+
+    .song {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      min-width: 0;
+      min-height: 108px;
+      padding: 12px 4px;
+      border: 0;
+      border-radius: 3px;
+      background: transparent;
+      text-align: center;
+      cursor: pointer;
+      overflow-wrap: anywhere;
+    }
+
+    .song:active,
+    .song:focus-visible {
+      background: #252525;
+      outline: 1px solid var(--cyan);
+    }
+
+    .song-name {
+      font-size: clamp(16px, 4.8vw, 24px);
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .song-artist {
+      color: #d0d0d0;
+      font-size: clamp(11px, 3.2vw, 14px);
+      font-weight: 500;
+      line-height: 1.25;
+    }
+
+    /* 곡별 제목 색상 */
+    .c1 { color: #28dc32; }
+    .c2 { color: #f6f6f6; }
+    .c3 { color: var(--cyan); }
+    .c4 { color: #f6d34e; }
+    .c5 { color: #e93242; }
+    .c6 { color: #bdbdbd; }
+
+    /* 오시는 길 */
+    .footer {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid #292929;
+    }
+
+    .footer h2 {
+      margin: 0 0 14px;
+      font-size: 20px;
+      letter-spacing: 0.12em;
+    }
+
+    /* 오시는 길 지도 스타일 */
+    .map-placeholder {
+      width: 100%;
+      margin-bottom: 14px;
+      overflow: hidden;
+      background: #151515;
+    }
+
+    .map-placeholder img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .address {
+      color: #d5d5d5;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .copy-button {
+      display: block;
+      margin-top: 12px;
+      padding: 10px 14px;
+      border: 1px solid #555;
+      border-radius: 7px;
+      background: #1a1a1a;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* 상세 페이지 */
+    .detail {
+      position: fixed;
+      inset: 0;
+      z-index: 10;
+      display: none;
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    .detail.open {
+      display: block;
+    }
+
+    .detail-inner {
+      width: 100%;
+      max-width: 680px;
+      min-height: 100%;
+      margin: 0 auto;
+      padding: 15px 20px 40px;
+    }
+
+    .back {
+      margin: 0 0 28px;
+      padding: 10px 15px;
+      border: 1px solid #444;
+      border-radius: 999px;
+      background: #171717;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .detail-kicker {
+      margin-bottom: 12px;
+      color: var(--cyan);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+    }
+
+    .detail-title {
+      margin: 0 0 10px;
+      font-size: clamp(32px, 9vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
+    .detail-artist {
+      margin-bottom: 32px;
+      color: #aaa;
+      font-size: 17px;
+    }
+
+    .info-list {
+      border-top: 1px solid #333;
+    }
+
+    .info-row {
+      display: grid;
+      grid-template-columns: 90px minmax(0, 1fr);
+      gap: 14px;
+      padding: 17px 0;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .info-label {
+      color: #999;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .info-value {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+
+    .member-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .member {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+
+    .member-role {
+      width: 65px;
+      flex-shrink: 0;
+      color: #888;
+      font-size: 13px;
+    }
+
+    .member-name {
+      font-size: 15px;
+    }
+
+    .detail-note {
+      margin-top: 28px;
+      padding: 16px;
+      border-radius: 8px;
+      background: #131313;
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 520px) {
+      .song-grid {
+        gap: 5px;
+        padding: 14px 12px;
+      }
+
+      .song {
+        min-height: 125px;
+      }
+
+      .part-title {
+        height: 48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap" id="home">
+    <h1 class="hero">SETLIST</h1>
+
+    <section aria-label="공연 셋리스트">
+      <h2 class="part-title">PART 1</h2>
+      <div class="song-grid" id="part1"></div>
+
+      <h2 class="part-title">PART 2</h2>
+      <div class="song-grid" id="part2"></div>
+    </section>
+
+    <footer class="footer">
+      <h2>오시는 길</h2>
+
+      <div class="map-placeholder">
+        <img src="map.png" alt="오시는 길 지도">
+      </div>
+
+      <div class="address">
+        주소<br>
+        인천 부평구 부평대로 230 B1층 B102호
+
+        <button class="copy-button" id="copyAddress">
+          주소 복사
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <!-- 곡 상세 페이지 -->
+  <section
+    class="detail"
+    id="detail"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="detailTitle"
+  >
+    <div class="detail-inner">
+      <button class="back" id="back">← 셋리스트로</button>
+
+      <div class="detail-kicker" id="detailPart">PART 1</div>
+      <h1 class="detail-title" id="detailTitle"></h1>
+      <div class="detail-artist" id="detailArtist"></div>
+
+      <div class="info-list">
+        <div class="info-row">
+          <div class="info-label">곡 제목</div>
+          <div class="info-value" id="infoTitle"></div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">아티스트</div>
+          <div class="info-value" id="infoArtist"></div>
+        </div>
+
+        <div class="info-row">
+          <div class="info-label">연주자</div>
+          <div class="info-value">
+            <div class="member-list" id="members"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-note">
+        공연 셋리스트 정보입니다.
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const songs = [
+      {
+        part: 1,
+        title: "선인장",
+        artist: "Surl (설)",
+        performers: {
+          "Vocal": "최경민",
+          "Keyboard": "성민준",
+          "Guitar 1": "이진우",
+          "Guitar 2": "이주현",
+          "Bass": "김도훈",
+          "Drum": "이은호"
+        }
+      },
+      {
+        part: 1,
+        title: "Sweet Chaos",
+        artist: "DAY6",
+        performers: {
+          "Vocal": "신창희",
+          "Keyboard": "이상수",
+          "Guitar 1": "이진우",
+          "Guitar 2": "최은재",
+          "Bass": "박동연",
+          "Drum": "박현준"
+        }
+      },
+      {
+        part: 1,
+        title: "Cruel Summer",
+        artist: "Taylor Swift",
+        performers: {
+          "Vocal": "이주현",
+          "Keyboard": "박성현",
+          "Guitar 1": "이영훈",
+          "Guitar 2": "이주현",
+          "Bass": "김건아",
+          "Drum": "안소현"
+        }
+      },
+      {
+        part: 1,
+        title: "check to check",
+        artist: "Ella Fitzgerald and Louis Armstrong",
+        performers: {
+          "Vocal": "박혜성",
+          "Keyboard": "박성현",
+          "Guitar 1": "임지후",
+          "Drum": "박건희"
+        }
+      },
+      {
+        part: 1,
+        title: "I Really Want to Stay At Your House",
+        artist: "Rosa Walton",
+        performers: {
+          "Vocal": "이주현",
+          "Keyboard": "박성현",
+          "Guitar 1": "이진우",
+          "Guitar 2": "박혜성",
+          "Bass": "김태경",
+          "Drum": "박현준"
+        }
+      },
+      {
+        part: 1,
+        title: "Yellow",
+        artist: "Coldplay",
+        performers: {
+          "Vocal": "조성열",
+          "Guitar 1": "이은지",
+          "Guitar 2": "가은서",
+          "Bass": "허 건",
+          "Drum": "박은산"
+        }
+      },
+      {
+        part: 1,
+        title: "소녀",
+        artist: "이문세",
+        performers: {
+          "Vocal": "이민우",
+          "통기타": "이민우"
+        }
+      },
+      {
+        part: 1,
+        title: "Some Like It Hot!!",
+        artist: "SPYAIR",
+        performers: {
+          "Vocal": "가은서",
+          "Guitar 1": "고우석",
+          "Guitar 2": "박재민",
+          "Bass": "박진민",
+          "Drum": "김배성"
+        }
+      },
+      {
+        part: 2,
+        title: "시작",
+        artist: "가호",
+        performers: {
+          "Vocal": "윤소현",
+          "Keyboard": "이승기",
+          "Guitar 1": "김지원",
+          "Guitar 2": "전승욱",
+          "Bass": "박성준",
+          "Drum": "전민성"
+        }
+      },
+      {
+        part: 2,
+        title: "Hello",
+        artist: "Oasis",
+        performers: {
+          "Vocal": "최경민",
+          "Keyboard": "안재윤",
+          "Guitar 1": "이주현",
+          "Guitar 2": "최경민",
+          "Bass": "하태호",
+          "Drum": "성민준"
+        }
+      },
+      {
+        part: 2,
+        title: "비와 당신",
+        artist: "박중훈",
+        performers: {
+          "Vocal": "김현빈",
+          "등기타": "최경민"
+        }
+      },
+      {
+        part: 2,
+        title: "흔들리는 시간 속에",
+        artist: "극동아시아타이거즈",
+        performers: {
+          "Vocal": "신창희",
+          "Guitar 1": "이진우",
+          "Guitar 2": "변중연",
+          "Bass": "이제빈",
+          "Drum": "이은호"
+        }
+      },
+      {
+        part: 2,
+        title: "거울",
+        artist: "한로로",
+        performers: {
+          "Vocal": "이주현",
+          "Keyboard": "이상수",
+          "Guitar 1": "성민준",
+          "Guitar 2": "가은서",
+          "Bass": "김태경",
+          "Drum": "이은호"
+        }
+      },
+      {
+        part: 2,
+        title: "Congratulations",
+        artist: "DAY6",
+        performers: {
+          "Vocal": "윤소현",
+          "Keyboard": "김도현",
+          "Guitar 1": "박재민",
+          "Guitar 2": "가은서",
+          "Bass": "김우찬",
+          "Drum": "전민성"
+        }
+      },
+      {
+        part: 2,
+        title: "Ryudejakeiru",
+        artist: "Silica Gel (실리카겔)",
+        performers: {
+          "Vocal": "박혜성",
+          "Keyboard": "이승기",
+          "Guitar 1": "이진우",
+          "Guitar 2": "박채영",
+          "Bass": "박동연",
+          "Drum": "한상민"
+        }
+      },
+      {
+        part: 2,
+        title: "슈퍼스타",
+        artist: "미도와 파라솔",
+        performers: {
+          "Vocal": "윤지영",
+          "Keyboard": "이상수",
+          "Guitar 1": "여명하",
+          "Guitar 2": "임성흔",
+          "Bass": "이슬아",
+          "Drum": "김민교"
+        }
+      }
+    ];
+
+    const colors = ["c1", "c2", "c3", "c4", "c5", "c6"];
+
+    function makeButton(song, index) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "song";
+
+      const title = document.createElement("span");
+      title.className = "song-name " + colors[index % colors.length];
+      title.textContent = song.title;
+
+      const artist = document.createElement("span");
+      artist.className = "song-artist";
+      artist.textContent = song.artist;
+
+      button.append(title, artist);
+      button.addEventListener("click", () => openSong(song));
+
+      return button;
+    }
+
+    function render() {
+      const part1 = document.getElementById("part1");
+      const part2 = document.getElementById("part2");
+
+      songs.forEach((song, index) => {
+        const target = song.part === 1 ? part1 : part2;
+        target.appendChild(makeButton(song, index));
+      });
+    }
+
+    function openSong(song) {
+      document.getElementById("detailPart").textContent = "PART " + song.part;
+      document.getElementById("detailTitle").textContent = song.title;
+      document.getElementById("detailArtist").textContent = song.artist;
+      document.getElementById("infoTitle").textContent = song.title;
+      document.getElementById("infoArtist").textContent = song.artist;
+
+      const members = document.getElementById("members");
+      members.replaceChildren();
+
+      Object.entries(song.performers).forEach(([role, name]) => {
+        if (!name || name === "-") return;
+
+        const row = document.createElement("div");
+        row.className = "member";
+
+        const roleElement = document.createElement("span");
+        roleElement.className = "member-role";
+        roleElement.textContent = role;
+
+        const nameElement = document.createElement("span");
+        nameElement.className = "member-name";
+        nameElement.textContent = name;
+
+        row.append(roleElement, nameElement);
+        members.appendChild(row);
+      });
+
+      document.getElementById("detail").classList.add("open");
+      document.getElementById("detail").scrollTop = 0;
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeDetail() {
+      document.getElementById("detail").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("back").addEventListener("click", closeDetail);
+
+    document.getElementById("copyAddress").addEventListener(
+      "click",
+      async () => {
+        const address = "인천 부평구 부평대로 230 B1층 B102호";
+        const button = document.getElementById("copyAddress");
+
+        try {
+          await navigator.clipboard.writeText(address);
+          button.textContent = "복사 완료";
+        } catch {
+          window.prompt("주소를 복사해 주세요.", address);
+        }
+      }
+    );
+
+    render();
+  </script>
+</body>
+</html>
